@@ -6,16 +6,20 @@
 const char * SSID = "tchombles";
 const char * SENHA = "123456789";
 
+bool statusLed = false;
+
 WebServer servidorWeb(80); //* instancia um objeto para criar um webserver
 
 //* funcao para gerar a pagina html que aparece no navegador
 void paginaInicial()
 {
-  String status = digitalRead(48) ? "LIGADO" : "DESLIGADO";
+  String status = statusLed ? "LIGADO" : "DESLIGADO";
 
   String na_html =
   "<meta name='viewport' content='width=device-width'>"
+  "<meta charset='UTF-8'>"
   "<p>LED: <b>"+ status +"</b></p>"
+  "<a href='/'><button>HOME</button></a>"
   "<a href='/on'><button>LIGAR</button></a>"
   "<a href='/off'><button>DESLIGAR</button></a>";
 
@@ -25,12 +29,14 @@ void paginaInicial()
 void ligar()
 {
   rgbLedWrite(48, 255, 0, 0);
+  statusLed = true;
   paginaInicial();
 }
 
 void desligar()
 {
   rgbLedWrite(48, 0, 0, 0);
+  statusLed = false;
   paginaInicial();
 }
 
